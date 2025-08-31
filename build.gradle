@@ -1,0 +1,59 @@
+plugins {
+    id 'org.springframework.boot' version '3.3.2'
+    id 'io.spring.dependency-management' version '1.1.3'
+    id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    jjwtVersion = '0.11.5'
+}
+
+dependencies {
+    // Spring Boot starters
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // OAuth2
+    implementation 'org.springframework.security:spring-security-oauth2-client'
+    implementation 'org.springframework.security:spring-security-oauth2-jose'
+
+    // Database driver
+    runtimeOnly 'org.postgresql:postgresql'
+
+    // JWT (jjwt)
+    implementation "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}"
+
+    // Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+
+    //Swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.release = 17
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

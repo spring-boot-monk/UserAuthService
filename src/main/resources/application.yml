@@ -1,0 +1,55 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/authdb
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+    ddl-auto: update # use 'validate' or 'none' in production
+    show-sql: true
+  properties:
+    hibernate:
+      ddl-auto: update
+      format_sql: true
+    show-sql: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: YOUR_GOOGLE_CLIENT_ID
+            client-secret: YOUR_GOOGLE_CLIENT_SECRET
+            scope:
+              - email
+              - profile
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+          github:
+            client-id: YOUR_GITHUB_CLIENT_ID
+            client-secret: YOUR_GITHUB_CLIENT_SECRET
+            scope:
+              - read:user
+              - user:email
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+
+        provider:
+          github:
+            authorization-uri: https://github.com/login/oauth/authorize
+            token-uri: https://github.com/login/oauth/access_token
+            user-info-uri: https://api.github.com/user
+            user-name-attribute: id
+
+jwt:
+  secret : 'oU4YzF4eoz7/5RnEbJh+McE2rQDJ1yT6Oby4kFk+0zE='
+  expiration: 3600000 # 1 hour in ms
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    url: /v3/api-docs
